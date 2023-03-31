@@ -36,49 +36,45 @@ CREATE TABLE IF NOT EXISTS `POSTACTIVITY`(
     CONSTRAINT postactivity_fk1 FOREIGN KEY (`postID`) REFERENCES `USERPOST` (`postID`)
 );
 
-NSERT INTO `POSTACTIVITY`
-VALUES
-    (
-        '00001',
-        '2023-01-03 00:23:24',
-        '00002',
-        'like',
-        NULL
-    );
-
-INSERT INTO
-    `POSTACTIVITY`
-VALUES
-    (
-        '00001',
-        '2023-01-02 00:23:30',
-        '00002',
-        'comment',
-        'goodjob terry!'
-    );
-
-INSERT INTO
-    `POSTACTIVITY`
-VALUES
-    (
-        '00002',
-        '2023-02-03 13:20:12',
-        '00003',
-        'like',
-        NULL
-    );
-
-INSERT INTO
-    `POSTACTIVITY`
-VALUES
-    (
-        '00003',
-        '2023-03-01 04:20:24',
-        '00001',
-        'like',
-        NULL
-    );
-
+-- INSERT INTO `POSTACTIVITY`
+-- VALUES
+--     (
+--         '00001',
+--         '2023-01-03 00:23:24',
+--         '00002',
+--         'like',
+--         NULL
+--     );
+-- INSERT INTO
+--     `POSTACTIVITY`
+-- VALUES
+--     (
+--         '00001',
+--         '2023-01-02 00:23:30',
+--         '00002',
+--         'comment',
+--         'goodjob terry!'
+--     );
+-- INSERT INTO
+--     `POSTACTIVITY`
+-- VALUES
+--     (
+--         '00002',
+--         '2023-02-03 13:20:12',
+--         '00003',
+--         'like',
+--         NULL
+--     );
+-- INSERT INTO
+--     `POSTACTIVITY`
+-- VALUES
+--     (
+--         '00003',
+--         '2023-03-01 04:20:24',
+--         '00001',
+--         'like',
+--         NULL
+--     );
 DROP DATABASE IF EXISTS voucherDB;
 
 CREATE DATABASE IF NOT EXISTS voucherDB;
@@ -237,14 +233,11 @@ INSERT INTO
 VALUES
     ('00003', '00003', '2303LIHO2', false);
 
-
-
-
 /******************************************************************************/
 -- missionDB script
 /******************************************************************************/
-
 DROP DATABASE IF EXISTS missionDB;
+
 CREATE DATABASE IF NOT EXISTS missionDB;
 
 USE missionDB;
@@ -268,18 +261,51 @@ CREATE TABLE IF NOT EXISTS `USERMISSION`(
 );
 
 -- inserting mock data
+INSERT INTO
+    `MISSION` (
+        `reward`,
+        `mission_category`,
+        `required_count`,
+        `description`
+    )
+VALUES
+    (60, 'Plastic', 3, 'This is mission 1...');
 
-INSERT INTO `MISSION` (`reward`,`mission_category`,`required_count`, `description`) VALUES(60, 'Plastic', 3, 'This is mission 1...');
-INSERT INTO `MISSION` (`reward`,`mission_category`,`required_count`, `description`) VALUES(100,'Paper', 5, 'This is mission 2...');
-INSERT INTO `MISSION` (`reward`,`mission_category`,`required_count`, `description`) VALUES(20, 'Others', 2, 'This is mission 3...');
-INSERT INTO `MISSION` (`reward`,`mission_category`,`required_count`, `description`) VALUES(200, 'Electronics', 2, 'This is mission 4...');
+INSERT INTO
+    `MISSION` (
+        `reward`,
+        `mission_category`,
+        `required_count`,
+        `description`
+    )
+VALUES
+    (100, 'Paper', 5, 'This is mission 2...');
 
+INSERT INTO
+    `MISSION` (
+        `reward`,
+        `mission_category`,
+        `required_count`,
+        `description`
+    )
+VALUES
+    (20, 'Others', 2, 'This is mission 3...');
+
+INSERT INTO
+    `MISSION` (
+        `reward`,
+        `mission_category`,
+        `required_count`,
+        `description`
+    )
+VALUES
+    (200, 'Electronics', 2, 'This is mission 4...');
 
 /******************************************************************************/
 -- recyclingbinDB script
 /******************************************************************************/
-
 DROP DATABASE IF EXISTS recyclingbinDB;
+
 CREATE DATABASE IF NOT EXISTS recyclingbinDB;
 
 USE recyclingbinDB;
@@ -289,17 +315,35 @@ CREATE TABLE IF NOT EXISTS `MISSIONCODE`(
     `verification_code` VARCHAR(6),
     `datetime_expire` DATETIME,
     `redeemed` BOOLEAN,
-    CONSTRAINT missioncode_pk PRIMARY KEY (`mission_category`, `verification_code`,`datetime_expire`)
-
+    CONSTRAINT missioncode_pk PRIMARY KEY (
+        `mission_category`,
+        `verification_code`,
+        `datetime_expire`
+    )
 );
 
-INSERT INTO `MISSIONCODE` VALUES('Plastic', '112492', '2023-02-02 13:23:24', 1);
-INSERT INTO `MISSIONCODE` VALUES('Plastic', '639152', '2023-02-03 22:23:24', 1);
-INSERT INTO `MISSIONCODE` VALUES('Paper', '679251', '2023-02-03 19:58:12', 0);
-INSERT INTO `MISSIONCODE` VALUES('Paper', '242267', '2023-03-03 10:02:54', 0);
+INSERT INTO
+    `MISSIONCODE`
+VALUES
+    ('Plastic', '112492', '2023-02-02 13:23:24', 1);
 
+INSERT INTO
+    `MISSIONCODE`
+VALUES
+    ('Plastic', '639152', '2023-02-03 22:23:24', 1);
 
-CREATE EVENT delete_old_verification_code
-ON SCHEDULE EVERY 1 DAY
-DO
-  DELETE FROM MISSIONCODE WHERE datetime_expire < DATE_SUB(NOW(), INTERVAL 1 DAY);
+INSERT INTO
+    `MISSIONCODE`
+VALUES
+    ('Paper', '679251', '2023-02-03 19:58:12', 0);
+
+INSERT INTO
+    `MISSIONCODE`
+VALUES
+    ('Paper', '242267', '2023-03-03 10:02:54', 0);
+
+CREATE EVENT delete_old_verification_code ON SCHEDULE EVERY 1 DAY DO
+DELETE FROM
+    MISSIONCODE
+WHERE
+    datetime_expire < DATE_SUB(NOW(), INTERVAL 1 DAY);
