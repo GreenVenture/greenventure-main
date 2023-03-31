@@ -3,7 +3,7 @@ WORKDIR /app
 COPY package*.json ./
 RUN npm install
 COPY . .
-EXPOSE 8080
+EXPOSE 8081
 CMD ["npm", "run", "serve"]
 
 # docker build -f bin_frontend.Dockerfile -t limrenkee/binfrontend:1.0 ./

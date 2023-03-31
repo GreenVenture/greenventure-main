@@ -7,7 +7,7 @@ services:
   ###################################
   account:
     build:
-        context: ./account
+        context: ./server/account
         dockerfile: account.Dockerfile
     image: rayquek123/account:1.0
     restart: always
@@ -23,7 +23,7 @@ services:
   ###################################
   voucher:
     build:
-        context: ./voucher
+        context: ./server/voucher
         dockerfile: voucher.Dockerfile
     image: rayquek123/voucher:1.0 
     restart: always
@@ -40,7 +40,7 @@ services:
   #######################################################
   wallet:
     build:
-      context: ./wallet
+      context: ./server/wallet
       dockerfile: wallet.Dockerfile
     image: rayquek123/wallet:1.0
     restart: always
@@ -50,14 +50,14 @@ services:
     ports:
       - "5102:5102"
     networks:
-      - my-network  
+      - my-network      
 
   #######################################################
   # Leaderboard: The Leaderboard microservice
   #######################################################
   leaderboards:
     build:
-      context: ./leaderboards
+      context: ./server/leaderboards
       dockerfile: leaderboards.Dockerfile
     image: rayquek123/leaderboards:1.0
     restart: always
@@ -75,7 +75,7 @@ services:
   #######################################################
   community:
     build:
-      context: ./community
+      context: ./server/community
       dockerfile: community.Dockerfile
     image: rayquek123/community:1.0
     restart: always
@@ -92,9 +92,9 @@ services:
   #######################################################
   recyclingbin:
     build:
-      context: ./recyclingbin
+      context: ./server/recyclingbin
       dockerfile: recyclingbin.Dockerfile
-    image: limrenkee/recyclingbin:1.0
+    image: rayquek123/recyclingbin:1.0
     restart: always
     environment:
       dbURL: mysql+mysqlconnector://is213@host.docker.internal:3306/recyclingbinDB
@@ -109,7 +109,7 @@ services:
   #####################################################################
   notifications:
     build:
-      context: ./notifications
+      context: ./server/notifications
       dockerfile: notifications.Dockerfile
     image: rayquek123/notifications:1.0
     restart: always
@@ -123,9 +123,9 @@ services:
   #######################################################
   mission:
     build:
-      context: ./mission
+      context: ./server/mission
       dockerfile: mission.Dockerfile
-    image: limrenkee/mission:1.0
+    image: rayquek123/mission:1.0
     restart: always
     environment:
       dbURL: mysql+mysqlconnector://is213@host.docker.internal:3306/missionDB
@@ -140,9 +140,9 @@ services:
   ##################################################################### 
   displayPointsVouchers:
       build:
-        context: ./displayPointsVouchers
+        context: ./server/displayPointsVouchers
         dockerfile: displayPointsVouchers.Dockerfile
-      image: mauriceho/displaypointsvouchers:1.0
+      image: rayquek123/displaypointsvouchers:1.0
       depends_on:
         - wallet
         - voucher
@@ -160,7 +160,7 @@ services:
   ###############################################
   redeem_voucher:
     build:
-      context: ./redeemVoucher
+      context: ./server/redeemVoucher
       dockerfile: redeemVoucher.Dockerfile
     image: rayquek123/redeemvoucher:1.0 
     restart: always
@@ -181,7 +181,7 @@ services:
   #####################################################################       
   use_voucher:
     build:
-      context: ./useVoucher
+      context: ./server/useVoucher
       dockerfile: useVoucher.Dockerfile
     image: rayquek123/usevoucher:1.0 
     restart: always
@@ -201,7 +201,7 @@ services:
   ##################################################################### 
   authaccount:
     build:
-        context: ./auth
+        context: ./server/auth
         dockerfile: auth.Dockerfile
     image: rayquek123/authaccount:1.0
     restart: always
@@ -224,9 +224,9 @@ services:
 
   createaccount:
     build:
-        context: ./createAccount
+        context: ./server/createAccount
         dockerfile: createaccount.Dockerfile
-    # image: a2ronk/createaccount:1.0
+    image: rayquek123/createaccount:1.0
     restart: always
     depends_on:
         - account
@@ -251,12 +251,14 @@ services:
   recyclingbin_frontend:
       build:
         context: ./client/recycling-bin-vue
-        dockerfile: recyclingbin.Dockerfile
-      image: limrenkee/recyclingbin:1.0
+        dockerfile: bin_frontend.Dockerfile
+      image: rayquek123/recyclingbinfrontend:1.0
       ports:
         - "8081:8081"
       networks:
         - my-network
+      # command: npm run serve
+
   
 networks:
   my-network:

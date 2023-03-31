@@ -13,7 +13,8 @@ from os import environ
 
 app = Flask(__name__)
 
-app.config['SQLALCHEMY_DATABASE_URI'] = environ.get('dbURL') or 'mysql+mysqlconnector://root:root@localhost:3306/missionDB'
+app.config['SQLALCHEMY_DATABASE_URI'] = environ.get(
+    'dbURL') or 'mysql+mysqlconnector://root:root@localhost:3306/missionDB'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(app)
@@ -29,7 +30,7 @@ leaderboard_URL = environ.get('leaderboardURL') or "http://localhost:5103/"
 
 class Mission(db.Model):
     __tablename__ = 'MISSION'
- 
+
     missionID = db.Column(db.Integer, primary_key=True)
     reward = db.Column(db.Integer, nullable=False)
     mission_category = db.Column(db.String(20), nullable=False)
@@ -37,31 +38,33 @@ class Mission(db.Model):
     description = db.Column(db.String(100))
 
     usermissions = db.relationship('UserMission', backref='Mission', lazy=True)
- 
+
     def __init__(self, missionID, reward, required_count, mission_category, description):
         self.missionID = missionID
         self.mission_category = mission_category
         self.reward = reward
         self.required_count = required_count
         self.description = description
- 
+
     def json(self):
         return {"missionID": self.missionID, "reward": self.reward, "required_count": self.required_count, "mission_category": self.mission_category, "description": self.description}
 
+
 class UserMission(db.Model):
     __tablename__ = 'USERMISSION'
- 
-    missionID = db.Column(db.Integer, db.ForeignKey('MISSION.missionID') ,primary_key=True)
+
+    missionID = db.Column(db.Integer, db.ForeignKey(
+        'MISSION.missionID'), primary_key=True)
     userID = db.Column(db.Integer, primary_key=True)
     completed_count = db.Column(db.Integer, nullable=False)
-    status = db.Column(db.String(20))   
- 
+    status = db.Column(db.String(20))
+
     def __init__(self, missionID, userID, completed_count, status):
         self.missionID = missionID
         self.completed_count = completed_count
         self.userID = userID
         self.status = status
- 
+
     def json(self):
         return {"missionID": self.missionID, "userID": self.userID, "completed_count": self.completed_count, "status": self.status}
 
@@ -71,10 +74,11 @@ def get_all_available_mission(userid):
     '''This function gets all missions that has yet to be taken up by user'''
 
     # get all mission that has yet to be taken up by user
-    
-    usermissionlist = db.session.query(UserMission.missionID).filter(UserMission.userID == userid).subquery()
-    missionlist = db.session.query(Mission).filter(~Mission.missionID.in_(usermissionlist)).all()
 
+    usermissionlist = db.session.query(UserMission.missionID).filter(
+        UserMission.userID == userid).subquery()
+    missionlist = db.session.query(Mission).filter(
+        ~Mission.missionID.in_(usermissionlist)).all()
 
     if len(missionlist):
         return jsonify(
@@ -83,7 +87,7 @@ def get_all_available_mission(userid):
                 "data": {
                     "missions": [mission.json() for mission in missionlist]
                 },
-                "message":"Successfully gotten available mission(s)"
+                "message": "Successfully gotten available mission(s)"
 
             }
         )
@@ -102,23 +106,22 @@ def get_all_in_progress_mission(userid):
 
     # get all mission that has yet to be taken up by user
 
-    results = db.session.query(Mission.missionID, Mission.reward, Mission.required_count, Mission.mission_category,\
-        Mission.description, UserMission.completed_count).join(UserMission).filter(Mission.missionID == UserMission.missionID)\
+    results = db.session.query(Mission.missionID, Mission.reward, Mission.required_count, Mission.mission_category,
+                               Mission.description, UserMission.completed_count).join(UserMission).filter(Mission.missionID == UserMission.missionID)\
         .filter(UserMission.userID == userid).filter(UserMission.status != "completed").all()
 
-
-    if len(results):
+    if len(results) >= 0:
 
         missionlist = []
 
         for mission in results:
             mission_dict = {
-                "missionID":mission[0],
-                "reward":mission[1],
-                "required_count":mission[2],
-                "mission_category":mission[3],
-                "description":mission[4],
-                "completed_count":mission[5],
+                "missionID": mission[0],
+                "reward": mission[1],
+                "required_count": mission[2],
+                "mission_category": mission[3],
+                "description": mission[4],
+                "completed_count": mission[5],
             }
             missionlist.append(mission_dict)
 
@@ -147,7 +150,8 @@ def accept_mission():
     query_userid = data['userid']
     query_missionid = data['missionid']
 
-    new_usermission = UserMission(missionID=query_missionid, userID=query_userid, completed_count=0, status='in_progress')
+    new_usermission = UserMission(
+        missionID=query_missionid, userID=query_userid, completed_count=0, status='in_progress')
 
     try:
         db.session.add(new_usermission)
@@ -161,7 +165,6 @@ def accept_mission():
                 "message": "An error occurred while creating the user mission record. " + str(e)
             }
         ), 500
-
 
     # success case
     return jsonify(
@@ -185,18 +188,19 @@ def complete_mission():
     query_verification_code = data['verification_code']
 
     # expected mission category based on mission id that came in
-    veri_mission_cat = db.session.query(Mission.mission_category).filter(Mission.missionID == query_missionid).scalar()
+    veri_mission_cat = db.session.query(Mission.mission_category).filter(
+        Mission.missionID == query_missionid).scalar()
 
     # verify if the verification code exists
     verification_details = check_verification_exist(query_verification_code)
     code = verification_details["code"]
-    
+
     if code not in range(200, 300):
         # verification code does not exist
 
         return {
             "code": 400,
-            "message": verification_details['message'] ,
+            "message": verification_details['message'],
         }
 
     # code exists, check if code is valid category
@@ -205,41 +209,42 @@ def complete_mission():
     is_redeemed = verification_details['data']['redeemed']
     datetime_expiry = verification_details['data']['datetime_expire']
 
-    datetime_expiry = datetime.strptime(datetime_expiry, '%a, %d %b %Y %H:%M:%S %Z')
-
+    datetime_expiry = datetime.strptime(
+        datetime_expiry, '%a, %d %b %Y %H:%M:%S %Z')
 
     if (category == veri_mission_cat and not is_redeemed):
         # valid verification code, proceed with updating
-        
-        missionrequired = db.session.query(Mission.required_count).filter(Mission.missionID == query_missionid).scalar()
-        completedcount = db.session.query(UserMission.completed_count).filter(UserMission.userID == query_userid).filter(UserMission.missionID == query_missionid).scalar()
-        usermission = db.session.query(UserMission).filter(UserMission.userID == query_userid).filter(UserMission.missionID == query_missionid).first()
-        points_earnt = db.session.query(Mission.reward).filter(Mission.missionID == query_missionid).scalar()
 
-        # update verification code at rubbish bin to redeemed 
+        missionrequired = db.session.query(Mission.required_count).filter(
+            Mission.missionID == query_missionid).scalar()
+        completedcount = db.session.query(UserMission.completed_count).filter(
+            UserMission.userID == query_userid).filter(UserMission.missionID == query_missionid).scalar()
+        usermission = db.session.query(UserMission).filter(
+            UserMission.userID == query_userid).filter(UserMission.missionID == query_missionid).first()
+        points_earnt = db.session.query(Mission.reward).filter(
+            Mission.missionID == query_missionid).scalar()
+
+        # update verification code at rubbish bin to redeemed
         redemption_status = redeem_code(query_verification_code)
         code = redemption_status["code"]
         if code not in range(200, 300):
-        # verification code is not redeemed properly
+            # verification code is not redeemed properly
 
             return {
                 "code": code,
                 "message": redemption_status['message']
             }
-        
-        # verification code redeem, proceed with updating
 
+        # verification code redeem, proceed with updating
 
         # update fields
         usermission.completed_count = completedcount + 1
 
-
         if completedcount + 1 == missionrequired:
 
             usermission.status = "completed"
-        
 
-        try: 
+        try:
             db.session.commit()
 
             if usermission.status == "completed":
@@ -247,17 +252,17 @@ def complete_mission():
                 # trigger all completed mission procedure, includes adding points to wallet,
                 # updating leaderboard, as well as sending email to user
 
-
                 update_wallet_status = update_wallet(data)
 
                 code = update_wallet_status["code"]
 
                 if code not in range(200, 300):
 
-                        return {
-                            "code": code,
-                            "message": update_wallet_status["message"] # assuming the update wallet function returns error in message key
-                        }
+                    return {
+                        "code": code,
+                        # assuming the update wallet function returns error in message key
+                        "message": update_wallet_status["message"]
+                    }
 
                 ############################################################
                 # ADD CODE FOR UPDATING LEADER BOARD HERE
@@ -273,46 +278,46 @@ def complete_mission():
 
                 if code not in range(200, 300):
 
-                        return {
-                            "code": code,
-                            "message": update_leaderboard_status["message"] # assuming the update wallet function returns error in message key
-                        }
+                    return {
+                        "code": code,
+                        # assuming the update wallet function returns error in message key
+                        "message": update_leaderboard_status["message"]
+                    }
 
                 ############################################################
                 # ADD CODE FOR PUSHING MESSAGE TO AMQP HERE
 
                 def send_to_lavinmq(message):
 
-                    channel.basic_publish(exchange="", routing_key=queue_name, body=message)
+                    channel.basic_publish(
+                        exchange="", routing_key=queue_name, body=message)
 
                 url = "amqps://pjfowojn:hi7ZiPRdS6bEQDHZo-_CKeLH7vbINRCn@possum.lmq.cloudamqp.com/pjfowojn"
                 params = pika.URLParameters(url)
                 connection = pika.BlockingConnection(params)
                 channel = connection.channel()
                 queue_name = "notifications"
-                my_object = {"email":"limrenkee123@gmail.com" ,"message":"You have earnt {} from the mission!".format(points), "subject": "Mission Completed!"}
+                my_object = {"email": "limrenkee123@gmail.com",
+                             "message": "You have earnt {} from the mission!".format(points), "subject": "Mission Completed!"}
                 message = json.dumps(my_object)
                 send_to_lavinmq(message)
                 # Close the connection
                 connection.close()
-
-
 
                 return {
                     "code": 200,
                     "message": "Task executed successfully"
                 }
 
-
             return jsonify(
-                    {
-                        "code": 200,
-                        "data": usermission.json()
-                    }
-                ), 200
+                {
+                    "code": 200,
+                    "data": usermission.json()
+                }
+            ), 200
 
         except Exception as e:
-            
+
             return jsonify(
                 {
                     "code": 500,
@@ -322,19 +327,20 @@ def complete_mission():
                     },
                     "message": "An error occurred while updating the user mission. " + str(e)
                 }
-            ), 500 
+            ), 500
 
     return {
 
-    "code": 400,
-    "message": "Verification Code is invalid"
+        "code": 400,
+        "message": "Verification Code is invalid"
     }
 
 
 def check_verification_exist(verification_code):
 
     # check if verifcation code exists in the recycling bin microservice
-    verification_details = invoke_http(recyclingbin_URL+"verificationcode/"+str(verification_code), method="GET")
+    verification_details = invoke_http(
+        recyclingbin_URL+"verificationcode/"+str(verification_code), method="GET")
 
     return verification_details
 
@@ -349,9 +355,11 @@ def check_verification_exist(verification_code):
 def redeem_code(verification_code):
 
     passed_json = {'verification_code': verification_code}
-    redemption_details = invoke_http(recyclingbin_URL+"redeem_code", json= passed_json, method="POST")
+    redemption_details = invoke_http(
+        recyclingbin_URL+"redeem_code", json=passed_json, method="POST")
 
     return redemption_details
+
 
 def update_wallet(data):
 
@@ -360,10 +368,12 @@ def update_wallet(data):
 
     return wallet_info
 
+
 def update_leaderboard(data):
 
     # check if verifcation code exists in the recycling bin microservice
-    leaderboard_info = invoke_http(leaderboard_URL + str(data['userid']), json=data, method="PATCH")
+    leaderboard_info = invoke_http(
+        leaderboard_URL + str(data['userid']), json=data, method="PATCH")
 
     return leaderboard_info
 
