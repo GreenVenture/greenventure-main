@@ -2,7 +2,8 @@ from flask import Flask, request, jsonify
 import pika
 from flask_cors import CORS
 
-import os, sys
+import os
+import sys
 from os import environ
 
 from invokes import invoke_http
@@ -15,10 +16,10 @@ app = Flask(__name__)
 CORS(app)
 
 
-
 voucher_URL = environ.get('voucher_URL') or "http://localhost:5101/voucher"
 wallet_URL = environ.get('wallet_URL') or "http://localhost:5102/wallet"
-walletVoucher_URL = environ.get('walletVoucher') or "http://localhost:5102/walletVoucher"
+walletVoucher_URL = environ.get(
+    'walletVoucher') or "http://localhost:5102/walletVoucher"
 
 
 @app.route("/redeemVoucher", methods=['POST'])
@@ -39,7 +40,8 @@ def redeem_voucher():
             # Unexpected error in code
             exc_type, exc_obj, exc_tb = sys.exc_info()
             fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
-            ex_str = str(e) + " at " + str(exc_type) + ": " + fname + ": line " + str(exc_tb.tb_lineno)
+            ex_str = str(e) + " at " + str(exc_type) + ": " + \
+                fname + ": line " + str(exc_tb.tb_lineno)
             print(ex_str)
 
             return jsonify({
@@ -53,12 +55,12 @@ def redeem_voucher():
         "message": "Invalid JSON input: " + str(request.get_data())
     }), 400
 
+
 def processRedeemVoucher(redemption):
     # Invoke the wallet microservice
     print('\n-----Invoking wallet microservice-----')
     redemption_result = invoke_http(wallet_URL, method='POST', json=redemption)
     print('voucherRedemption_result:', redemption_result)
-
 
     code = redemption_result["code"]
     message = json.dumps(redemption_result["message"])
@@ -70,12 +72,13 @@ def processRedeemVoucher(redemption):
             "data": {"order_result": redemption_result},
             "message": "Voucher redemption failure"
         }
-    
+
     else:
-        
-        #Invoke the voucher microservice
+
+        # Invoke the voucher microservice
         print('\n-----Invoking order microservice-----')
-        redemption_voucher_result = invoke_http(voucher_URL+"/"+redemption["voucher_code"], method='PATCH')
+        redemption_voucher_result = invoke_http(
+            voucher_URL+"/"+redemption["voucher_code"], method='PATCH')
         print('voucherRedemption_result:', redemption_voucher_result)
 
         code = redemption_voucher_result["code"]
@@ -88,12 +91,16 @@ def processRedeemVoucher(redemption):
                 "data": {"order_result": redemption_voucher_result},
                 "message": "Voucher redemption failure."
             }
-        
-        returnMessage = "Dear valued GreenVenture customer, We would like to inform you that the voucher with the code \'" + redemption["voucher_code"]+ "\' has been added into the wallet. Please note that " + str( redemption["voucher_amount"]) + " points have been deducted from your wallet as part of the redemption process."
-        frontEndMessage = "Voucher with the code \'" + redemption["voucher_code"]+ "\' has been added into the wallet. "+ str( redemption["voucher_amount"]) + " points have been deducted from your wallet as part of the redemption process."
-        def send_to_lavinmq(message):
-            channel.basic_publish(exchange="", routing_key=queue_name, body=message)
 
+        returnMessage = "Dear valued GreenVenture customer,\n We would like to inform you that the voucher with the code \'" + \
+            redemption["voucher_code"] + "\' has been added into the wallet.\n Please note that " + str(
+                redemption["voucher_amount"]) + " points have been deducted from your wallet as part of the redemption process."
+        frontEndMessage = "Voucher with the code \'" + redemption["voucher_code"] + "\' has been added into the wallet. " + str(
+            redemption["voucher_amount"]) + " points have been deducted from your wallet as part of the redemption process."
+
+        def send_to_lavinmq(message):
+            channel.basic_publish(
+                exchange="", routing_key=queue_name, body=message)
 
         # Send a message to LavinMQ
         url = "amqps://pjfowojn:hi7ZiPRdS6bEQDHZo-_CKeLH7vbINRCn@possum.lmq.cloudamqp.com/pjfowojn"
@@ -101,24 +108,22 @@ def processRedeemVoucher(redemption):
         connection = pika.BlockingConnection(params)
         channel = connection.channel()
         queue_name = "notifications"
-        my_object = {"message":returnMessage, "email":redemption["email"], "subject":"Voucher Redemption"}
+        my_object = {"message": returnMessage,
+                     "email": redemption["email"], "subject": "Voucher Redemption"}
         message = json.dumps(my_object)
         send_to_lavinmq(message)
         # Close the connection
         connection.close()
-    
-
-
-
 
     return {
         "code": 201,
         "data": {
             "redemption_result": redemption_result,
             "redemption_voucher_result": redemption_voucher_result,
-            "returnMessage":frontEndMessage
+            "returnMessage": frontEndMessage
         }
     }
+
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5204, debug=True)
