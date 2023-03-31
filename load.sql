@@ -236,3 +236,70 @@ INSERT INTO
     `WALLETVOUCHER`
 VALUES
     ('00003', '00003', '2303LIHO2', false);
+
+
+
+
+/******************************************************************************/
+-- missionDB script
+/******************************************************************************/
+
+DROP DATABASE IF EXISTS missionDB;
+CREATE DATABASE IF NOT EXISTS missionDB;
+
+USE missionDB;
+
+CREATE TABLE IF NOT EXISTS `MISSION`(
+    `missionID` INT(5) NOT NULL AUTO_INCREMENT,
+    `reward` INT(5),
+    `required_count` INT(3),
+    `mission_category` VARCHAR(20),
+    `description` VARCHAR(100),
+    CONSTRAINT mission_pk PRIMARY KEY (`missionID`)
+);
+
+CREATE TABLE IF NOT EXISTS `USERMISSION`(
+    `missionID` INT(5),
+    `userID` VARCHAR(50),
+    `completed_count` INT(3),
+    `status` VARCHAR(20),
+    CONSTRAINT usermission_pk PRIMARY KEY (`missionID`, `userID`),
+    CONSTRAINT usermission_fk1 FOREIGN KEY (`missionID`) REFERENCES `MISSION` (`missionID`)
+);
+
+-- inserting mock data
+
+INSERT INTO `MISSION` (`reward`,`mission_category`,`required_count`, `description`) VALUES(60, 'Plastic', 3, 'This is mission 1...');
+INSERT INTO `MISSION` (`reward`,`mission_category`,`required_count`, `description`) VALUES(100,'Paper', 5, 'This is mission 2...');
+INSERT INTO `MISSION` (`reward`,`mission_category`,`required_count`, `description`) VALUES(20, 'Others', 2, 'This is mission 3...');
+INSERT INTO `MISSION` (`reward`,`mission_category`,`required_count`, `description`) VALUES(200, 'Electronics', 2, 'This is mission 4...');
+
+
+/******************************************************************************/
+-- recyclingbinDB script
+/******************************************************************************/
+
+DROP DATABASE IF EXISTS recyclingbinDB;
+CREATE DATABASE IF NOT EXISTS recyclingbinDB;
+
+USE recyclingbinDB;
+
+CREATE TABLE IF NOT EXISTS `MISSIONCODE`(
+    `mission_category` VARCHAR(20),
+    `verification_code` VARCHAR(6),
+    `datetime_expire` DATETIME,
+    `redeemed` BOOLEAN,
+    CONSTRAINT missioncode_pk PRIMARY KEY (`mission_category`, `verification_code`,`datetime_expire`)
+
+);
+
+INSERT INTO `MISSIONCODE` VALUES('Plastic', '112492', '2023-02-02 13:23:24', 1);
+INSERT INTO `MISSIONCODE` VALUES('Plastic', '639152', '2023-02-03 22:23:24', 1);
+INSERT INTO `MISSIONCODE` VALUES('Paper', '679251', '2023-02-03 19:58:12', 0);
+INSERT INTO `MISSIONCODE` VALUES('Paper', '242267', '2023-03-03 10:02:54', 0);
+
+
+CREATE EVENT delete_old_verification_code
+ON SCHEDULE EVERY 1 DAY
+DO
+  DELETE FROM MISSIONCODE WHERE datetime_expire < DATE_SUB(NOW(), INTERVAL 1 DAY);
