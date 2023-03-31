@@ -62,7 +62,8 @@ services:
         restart: always
         environment:
             #insert db
-            dbURL: mysql+mysqlconnector://is213@host.docker.internal:3306/
+            MONGODB_URI: mongodb+srv://fullstack:skyrim2812@cluster0.zlomb.mongodb.net/leaderboardDB?retryWrites=true&w=majority
+            PORT: 5103
             PYTHONUNBUFFERED: 1
         ports:
             - "5103:5103"
@@ -129,7 +130,8 @@ services:
         environment:
             dbURL: mysql+mysqlconnector://is213@host.docker.internal:3306/missionDB
             recyclingbinURL: http://recyclingbin:5105/
-            walletURL: http://wallet:5202/
+            walletURL: http://wallet:5102/
+            leaderboardURL: http://leaderboards:5103/api/leaderboards/
             PYTHONUNBUFFERED: 1
         ports:
             - "5201:5201"
