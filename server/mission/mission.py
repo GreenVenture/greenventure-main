@@ -20,7 +20,6 @@ db = SQLAlchemy(app)
 CORS(app)
 
 recyclingbin_URL = environ.get('recyclingbinURL') or "http://localhost:5105/"
-# process_completion_URL = environ.get('process_completion_URL') or "http://localhost:5202/"
 
 wallet_URL = environ.get('walletURL') or "http://localhost:5102/"
 addpoints_URL = wallet_URL + "wallet/addpoints"
@@ -73,8 +72,7 @@ def get_all_available_mission(userid):
 
     # get all mission that has yet to be taken up by user
     
-    query_userid = int(userid)
-    usermissionlist = db.session.query(UserMission.missionID).filter(UserMission.userID == query_userid).subquery()
+    usermissionlist = db.session.query(UserMission.missionID).filter(UserMission.userID == userid).subquery()
     missionlist = db.session.query(Mission).filter(~Mission.missionID.in_(usermissionlist)).all()
 
 
@@ -91,7 +89,7 @@ def get_all_available_mission(userid):
         )
     return jsonify(
         {
-            "query_userid": query_userid,
+            "query_userid": userid,
             "code": 404,
             "message": "There are no available mission."
         }
@@ -104,11 +102,9 @@ def get_all_in_progress_mission(userid):
 
     # get all mission that has yet to be taken up by user
 
-    query_userid = int(userid)
-
     results = db.session.query(Mission.missionID, Mission.reward, Mission.required_count, Mission.mission_category,\
         Mission.description, UserMission.completed_count).join(UserMission).filter(Mission.missionID == UserMission.missionID)\
-        .filter(UserMission.userID == query_userid).filter(UserMission.status != "completed").all()
+        .filter(UserMission.userID == userid).filter(UserMission.status != "completed").all()
 
 
     if len(results):
