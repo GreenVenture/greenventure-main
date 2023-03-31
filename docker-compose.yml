@@ -257,9 +257,25 @@ services:
         image: rayquek123/recyclingbinfrontend:1.0
         ports:
             - "8081:8081"
+        depends_on:
+            - recyclingbin
         networks:
             - my-network
         # command: npm run serve
+
+        #####################################################################
+        # LeaderBoard UI: The frontend for leaderboard
+        #####################################################################
+
+    leaderboard_frontend:
+        build:
+            context: ./client/leaderboards
+        ports:
+            - "3000:3000"
+        environment:
+            REACT_APP_API_URL: http://leaderboards:5103
+        depends_on:
+            - leaderboards
 
 networks:
     my-network:
