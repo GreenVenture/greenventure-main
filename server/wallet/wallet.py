@@ -86,6 +86,8 @@ class Walletvoucher(db.Model):
 #             "data": WALLETVOUCHER.json()
 #         }
 #     ), 201
+
+
 @app.route("/wallet/adduser", methods=["POST"])
 def add_wallet():
     data = request.get_json()
@@ -150,8 +152,9 @@ def get_user_wallet(user_id):
 """use"""
 
 
-@app.route("/wallet/use/<int:walletID>/<string:voucherCode>", methods=["PATCH"])
+@app.route("/wallet/use/<string:walletID>/<string:voucherCode>", methods=["PATCH"])
 def mark_voucher_as_used(walletID, voucherCode):
+    walletID = int(walletID)
     WALLETVOUCHER = Walletvoucher.query.filter_by(
         walletID=walletID, voucher_code=voucherCode
     ).first()
@@ -225,7 +228,8 @@ def verify_and_exchange_points():
         )
 
     wallet.points_remaining -= voucher_amount
-    WALLETVOUCHER = Walletvoucher(wallet.walletID, voucherID, voucher_code, used=False)
+    WALLETVOUCHER = Walletvoucher(
+        wallet.walletID, voucherID, voucher_code, used=False)
     try:
         db.session.add(WALLETVOUCHER)
         db.session.commit()

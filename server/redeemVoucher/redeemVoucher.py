@@ -92,8 +92,8 @@ def processRedeemVoucher(redemption):
                 "message": "Voucher redemption failure."
             }
 
-        returnMessage = "Dear valued GreenVenture customer,\n We would like to inform you that the voucher with the code \'" + \
-            redemption["voucher_code"] + "\' has been added into the wallet.\n Please note that " + str(
+        returnMessage = "Dear valued GreenVenture customer,\n\nWe would like to inform you that the voucher with the code \'" + \
+            redemption["voucher_code"] + "\' has been added into the wallet.\n\nPlease note that " + str(
                 redemption["voucher_amount"]) + " points have been deducted from your wallet as part of the redemption process."
         frontEndMessage = "Voucher with the code \'" + redemption["voucher_code"] + "\' has been added into the wallet. " + str(
             redemption["voucher_amount"]) + " points have been deducted from your wallet as part of the redemption process."

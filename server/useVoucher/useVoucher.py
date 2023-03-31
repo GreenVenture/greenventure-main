@@ -62,7 +62,8 @@ def use_voucher():
     # if reached here, not a JSON request.
     return (
         jsonify(
-            {"code": 400, "message": "Invalid JSON input: " + str(request.get_data())}
+            {"code": 400, "message": "Invalid JSON input: " +
+                str(request.get_data())}
         ),
         400,
     )
@@ -72,7 +73,8 @@ def processUseVoucher(use):
     # Invoke the wallet microservice
     print("\n-----Invoking order microservice-----")
     useVoucher_result = invoke_http(
-        wallet_URL + "/use/" + str(use["walletID"]) + "/" + use["voucher_code"],
+        wallet_URL + "/use/" +
+        str(use["walletID"]) + "/" + use["voucher_code"],
         method="PATCH",
     )
     print("useVoucher_result:", useVoucher_result)
@@ -91,18 +93,20 @@ def processUseVoucher(use):
     else:
         # Craft message to send to AMQP
         returnMessage = (
-            "Dear valued GreenVenture customer, \n\n We are pleased to inform you that your voucher with the code '"
+            "Dear valued GreenVenture customer, \n\nWe are pleased to inform you that your voucher with the code '"
             + use["voucher_code"]
-            + "' has been successfully redeemed. \n\n We greatly appreciate your commitment to cycling and reducing your carbon footprint. Your effort is truly commendable and we encourage you to continue your sustainable practices."
+            + "' has been successfully redeemed. \n\nWe greatly appreciate your commitment to cycling and reducing your carbon footprint. Your effort is truly commendable and we encourage you to continue your sustainable practices."
         )
         # Craft message to return back to front end
         frontEndMessage = (
-            "Voucher '" + use["voucher_code"] + "' has been successfully redeemed."
+            "Voucher '" + use["voucher_code"] +
+            "' has been successfully redeemed."
         )
 
         # Send a message to LavinMQ to notify user by email that voucher is consumed.
         def send_to_lavinmq(message):
-            channel.basic_publish(exchange="", routing_key=queue_name, body=message)
+            channel.basic_publish(
+                exchange="", routing_key=queue_name, body=message)
 
         url = "amqps://pjfowojn:hi7ZiPRdS6bEQDHZo-_CKeLH7vbINRCn@possum.lmq.cloudamqp.com/pjfowojn"
         params = pika.URLParameters(url)
