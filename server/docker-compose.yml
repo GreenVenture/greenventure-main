@@ -87,6 +87,23 @@ services:
     networks:
       - my-network
 
+  #######################################################
+  # Recycling Bin: The recycling bin microservice
+  #######################################################
+  recyclingbin:
+    build:
+      context: ./recyclingbin
+      dockerfile: recyclingbin.Dockerfile
+    image: limrenkee/recyclingbin:1.0
+    restart: always
+    environment:
+      dbURL: mysql+mysqlconnector://is213@host.docker.internal:3306/recyclingbinDB
+      PYTHONUNBUFFERED: 1
+    ports:
+      - "5105:5105"
+    networks:
+      - my-network  
+
   #####################################################################
   # Notifications: The notification microservice
   #####################################################################
@@ -100,6 +117,23 @@ services:
       - "5672:5672"
     networks:
       - my-network  
+
+  #######################################################
+  # Mission: The Mission complex microservice
+  #######################################################
+  mission:
+    build:
+      context: ./mission
+      dockerfile: mission.Dockerfile
+    image: limrenkee/mission:1.0
+    restart: always
+    environment:
+      dbURL: mysql+mysqlconnector://is213@host.docker.internal:3306/missionDB
+      PYTHONUNBUFFERED: 1
+    ports:
+      - "5201:5201"
+    networks:
+      - my-network 
 
   #####################################################################
   # Display Points Vouchers: The Display Points Vouchers complex microservice
