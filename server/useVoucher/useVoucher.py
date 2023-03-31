@@ -53,7 +53,7 @@ def use_voucher():
 def processUseVoucher(use):
     # Invoke the wallet microservice
     print('\n-----Invoking order microservice-----')
-    useVoucher_result = invoke_http(wallet_URL+"/use/"+use["walletID"]+"/"+use["voucher_code"], method='PATCH')
+    useVoucher_result = invoke_http(wallet_URL+"/use/"+str(use["walletID"])+"/"+use["voucher_code"], method='PATCH')
     print('useVoucher_result:', useVoucher_result)
 
     code = useVoucher_result["code"]
