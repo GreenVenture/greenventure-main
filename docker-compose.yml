@@ -241,7 +241,22 @@ services:
     ports:
         - "5208:5208"
     networks:
-        - my-network      
+        - my-network     
+        
+
+  #####################################################################
+  # Recycling Bin: The frontend for smart bin simulation
+  ##################################################################### 
+        
+  recyclingbin_frontend:
+      build:
+        context: ./client/recycling-bin-vue
+        dockerfile: recyclingbin.Dockerfile
+      image: limrenkee/recyclingbin:1.0
+      ports:
+        - "8081:8081"
+      networks:
+        - my-network
   
 networks:
   my-network:
