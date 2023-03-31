@@ -240,7 +240,7 @@ services:
             CREATE_WALLET_URL: "http://wallet:5102/"
             ACCOUNT_URL: "http://account:5100/"
             AUTH_ACCOUNT_URL: "http://authaccount:5207/"
-            # LEADERBOARD_URL: "http://leaderboard:5103/"
+            LEADERBOARD_URL: http://leaderboards:5103/api/leaderboards/
         ports:
             - "5208:5208"
         networks:
