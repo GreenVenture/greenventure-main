@@ -4,6 +4,10 @@
 Sustainability has become an important aspect of corporate responsibility. Companies are looking for innovative ways to promote sustainable practices   and engage their customers in this mission. Our approach is through sustainability themed missions that rewards users by performing environmentally-     friendly activities through our app GreenVenture. The concept of sustainability missions involves users performing various activities such as recycling. These activities earn users points which they can later redeem for rewards such as vouchers, discounts, or even cashback. 
 </p>
 
+#### INSERT MORE SCREENSHOTS
+
+#### Leaderboards Page
+![Screenshot 2023-04-01 at 3 57 37 PM](https://user-images.githubusercontent.com/86020207/229273581-a90da9d4-1453-4e09-b278-be2adc280f2f.png)
 
 ## Table of Contents
 
