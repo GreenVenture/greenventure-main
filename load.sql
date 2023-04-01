@@ -338,7 +338,7 @@ INSERT INTO
         `description`
     )
 VALUES
-    (60, 'Plastic', 3, 'This is mission 1...');
+    (60, 'Plastic', 3, 'Earn 60 points when you recycle 3 plastic items at our recycling bin!');
 
 INSERT INTO
     `MISSION` (
@@ -348,7 +348,7 @@ INSERT INTO
         `description`
     )
 VALUES
-    (100, 'Paper', 5, 'This is mission 2...');
+    (100, 'Paper', 5, 'Earn 100 points when you recycle 5 paper items at our recycling bin!');
 
 INSERT INTO
     `MISSION` (
@@ -358,7 +358,7 @@ INSERT INTO
         `description`
     )
 VALUES
-    (20, 'Others', 2, 'This is mission 3...');
+    (20, 'Plastic', 1, 'Earn 20 points when you recycle 1 plastic item at our recycling bin!');
 
 INSERT INTO
     `MISSION` (
@@ -368,7 +368,7 @@ INSERT INTO
         `description`
     )
 VALUES
-    (200, 'Electronics', 2, 'This is mission 4...');
+    (200, 'Electronics', 2, 'Earn 200 points when you recycle 2 electronic waste at our recycling bin!');
 
 /******************************************************************************/
 -- recyclingbinDB script
