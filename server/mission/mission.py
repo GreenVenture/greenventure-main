@@ -106,7 +106,7 @@ def get_all_available_mission(userid):
             {
                 "code": 200,
                 "data": {"missions": [mission.json() for mission in missionlist]},
-                "message": "Successfully gotten available mission(s)",
+                "message": "Successfully obtained all available mission(s)",
             }
         )
     return (
@@ -114,7 +114,7 @@ def get_all_available_mission(userid):
             {
                 "query_userid": userid,
                 "code": 404,
-                "message": "There are no available mission.",
+                "message": "There are no available missions.",
             }
         ),
         404,
@@ -158,8 +158,8 @@ def get_all_in_progress_mission(userid):
             }
             missionlist.append(mission_dict)
 
-        return jsonify({"code": 200, "data": {"missions": missionlist}})
-    return jsonify({"code": 404, "message": "There are no available mission."}), 404
+        return jsonify({"code": 200, "data": {"missions": missionlist}, "message": "Successfully obtained all in-progress mission(s)."})
+    return jsonify({"code": 404, "message": "There are no in-progress missions."}), 404
 
 
 @app.route("/accept_mission", methods=["POST"])
@@ -196,7 +196,7 @@ def accept_mission():
         )
 
     # success case
-    return jsonify({"code": 201, "data": new_usermission.json()}), 201
+    return jsonify({"code": 201, "data": new_usermission.json(), "message": "Successfully accepted mission"}), 201
 
 
 @app.route("/complete_mission", methods=["POST"])
