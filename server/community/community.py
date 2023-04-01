@@ -2,7 +2,7 @@ from flask import Flask, request, jsonify
 from flask_sqlalchemy import SQLAlchemy
 import os
 from datetime import datetime
-
+from flask_cors import CORS
 app = Flask(__name__)
 # Setting up the database connection.
 # app.config[
@@ -12,7 +12,7 @@ app.config["SQLALCHEMY_DATABASE_URI"] = os.environ.get("dbURL")
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
 db = SQLAlchemy(app)
-
+CORS(app)
 
 class Userpost(db.Model):
     __tablename__ = "USERPOST"
