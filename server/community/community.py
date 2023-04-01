@@ -18,17 +18,20 @@ class Userpost(db.Model):
     __tablename__ = "USERPOST"
     postID = db.Column(db.Integer, primary_key=True, autoincrement=True)
     userID = db.Column(db.String(50), nullable=False)
+    username = db.Column(db.String(50), nullable=False)
     post_datetime = db.Column(db.DateTime, nullable=False)
     post = db.Column(db.String(255), nullable=False)
 
-    def __init__(self, userID, post_datetime, post):
+    def __init__(self, userID, username, post_datetime, post):
         self.userID = userID
+        self.username = username
         self.post_datetime = post_datetime
         self.post = post
 
     def json(self):
         return {
             "userID": self.userID,
+            "username": self.username,
             "postID": self.postID,
             "post_datetime": self.post_datetime,
             "post": self.post,
@@ -40,13 +43,15 @@ class Postactivity(db.Model):
     postID = db.Column(db.Integer, primary_key=True)
     activity_datetime = db.Column(db.DateTime, primary_key=True)
     action_user = db.Column(db.String(50), primary_key=True)
+    action_username = db.Column(db.String(50), nullable=True)
     activity = db.Column(db.String(20), nullable=True)
     comment = db.Column(db.String(50), nullable=True)
 
-    def __init__(self, postID, activity_datetime, action_user, activity, comment):
+    def __init__(self, postID, activity_datetime, action_user, action_username, activity, comment):
         self.postID = postID
         self.activity_datetime = activity_datetime
         self.action_user = action_user
+        self.action_username = action_username
         self.activity = activity
         self.comment = comment
 
@@ -55,6 +60,7 @@ class Postactivity(db.Model):
             "postID": self.postID,
             "activity_datetime": self.activity_datetime,
             "action_user": self.action_user,
+            "action_username": self.action_username,
             "activity": self.activity,
             "comment": self.comment,
         }
@@ -152,9 +158,10 @@ def addNewPost(userID):
 
     aRequest = request.get_json()
     post = str(aRequest["post"])
+    username = str(aRequest["username"])
     now = datetime.now()
     formatted_date = now.strftime("%Y-%m-%d %H:%M:%S")
-    newPost = Userpost(userID=userID, post_datetime=formatted_date, post=post)
+    newPost = Userpost(userID=userID, username=username , post_datetime=formatted_date, post=post)
     try:
         db.session.add(newPost)
         db.session.commit()
@@ -253,6 +260,7 @@ def addPostDetail(postID):
     """
     aRequest = request.get_json()
     action_user = str(aRequest["action_user"])
+    action_username = str(aRequest["action_username"])
     activity = str(aRequest["activity"])
     comment = str(aRequest["comment"])
     now = datetime.now()
@@ -260,6 +268,7 @@ def addPostDetail(postID):
     newPostDetail = Postactivity(
         postID=postID,
         action_user=action_user,
+        action_username=action_username,
         activity=activity,
         comment=comment,
         activity_datetime=formatted_date,

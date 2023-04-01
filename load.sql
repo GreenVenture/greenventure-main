@@ -29,6 +29,7 @@ USE communityDB;
 CREATE TABLE IF NOT EXISTS `USERPOST`(
     `postID` INT AUTO_INCREMENT,
     `userID` varchar(50),
+    `username` varchar(50),
     `post_datetime` DATETIME,
     `post` VARCHAR(200),
     CONSTRAINT userpost_pk PRIMARY KEY (`postID`)
@@ -38,6 +39,7 @@ CREATE TABLE IF NOT EXISTS `POSTACTIVITY`(
     `postID` INT,
     `activity_datetime` DATETIME,
     `action_user` varchar(50),
+    `action_username` varchar(50),
     `activity` VARCHAR(20),
     `comment` VARCHAR(50),
     CONSTRAINT postactivity_pk PRIMARY KEY (`postID`, `activity_datetime`, `action_user`),
@@ -45,46 +47,51 @@ CREATE TABLE IF NOT EXISTS `POSTACTIVITY`(
 );
 
 INSERT INTO
-    `USERPOST` (`userID`, `post_datetime`, `post`)
+    `USERPOST` (`userID`, `username`, `post_datetime`, `post`)
 VALUES
     (
         '00001',
+        'Tom',
         '2023-01-01 13:23:24',
         'I have completed sustainable mission1'
     );
 
 INSERT INTO
-    `USERPOST` (`userID`, `post_datetime`, `post`)
+    `USERPOST` (`userID`, `username`, `post_datetime`, `post`)
 VALUES
     (
         '00001',
+        'Tom',
         '2023-02-03 00:13:24',
         'I have completed sustainable mission2'
     );
 
 INSERT INTO
-    `USERPOST` (`userID`, `post_datetime`, `post`)
+    `USERPOST` (`userID`, `username`, `post_datetime`, `post`)
 VALUES
     (
         '00003',
+        'Aaron',
         '2023-03-01 02:02:00',
         'I have completed sustainable mission3'
     );
 
 INSERT INTO
-    `USERPOST` (`userID`, `post_datetime`, `post`)
+    `USERPOST` (`userID`, `username`, `post_datetime`, `post`)
 VALUES
     (
         '00003',
+        'Aaron',
         '2023-03-01 02:02:00',
         'I have completed sustainable mission3'
     );
 
 INSERT INTO
-    `USERPOST` (`userID`, `post_datetime`, `post`)
+    `USERPOST` (`userID`, `username`, `post_datetime`, `post`)
 VALUES
     (
         '123456789',
+        'Maurice',
         '2023-04-01 02:02:00',
         'I have completed sustainable mission 5 (This is the demo post for community email)'
     );
@@ -96,6 +103,7 @@ VALUES
         '00001',
         '2023-01-03 00:23:24',
         '00002',
+        'Baron',
         'like',
         NULL
     );
@@ -107,6 +115,7 @@ VALUES
         '00001',
         '2023-01-02 00:23:30',
         '00002',
+        'Baron',
         'comment',
         'goodjob terry!'
     );
@@ -118,6 +127,7 @@ VALUES
         '00002',
         '2023-02-03 13:20:12',
         '00003',
+        'Aaron',
         'like',
         NULL
     );
@@ -129,6 +139,7 @@ VALUES
         '00003',
         '2023-03-01 04:20:24',
         '00001',
+        'Tom',
         'like',
         NULL
     );
