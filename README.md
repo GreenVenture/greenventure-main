@@ -1,33 +1,29 @@
 <h1 align="center"> GreenVenture </h1> <br>
 
-<p align="center">
-  Sample microservice description.
+<p>
+Sustainability has become an important aspect of corporate responsibility. Companies are looking for innovative ways to promote sustainable practices   and engage their customers in this mission. Our approach is through sustainability themed missions that rewards users by performing environmentally-     friendly activities through our app GreenVenture. The concept of sustainability missions involves users performing various activities such as recycling. These activities earn users points which they can later redeem for rewards such as vouchers, discounts, or even cashback. 
 </p>
 
 
 ## Table of Contents
 
-- [Introduction](#introduction)
+- [Tech Stack](#tech-stack)
 - [Features](#features)
 - [Requirements](#requirements)
 - [Quick Start](#quick-start)
-- [Testing](#testing)
 - [API](#requirements)
-- [Acknowledgements](#acknowledgements)
 
-
-
-
-## Introduction
-
-TODO: Replace with introduction
+## Tech Stack
+* Front-End: Vue.js & React.js
+* Back-End: Flask & Node.js + Express.js
+* Databases: MySQL & MongoDB
+* Tools: Docker & LavinMQ
 
 ## Features
-TODO: Description of features
 
-* Include a list of
-* all the many beautiful
-* web server features
+* Do missions, complete them and earn points
+* Redeem vouchers with points
+* Participate in the community and view the leaderboards
 
 
 ## Requirements
@@ -67,12 +63,8 @@ $ docker-compose up
 
 Application will run by default on port `1234`
 
-## Testing
-TODO: Additional instructions for testing the application.
-
 
 ## API
-TODO: API Reference with examples, or a link to a wiki or other documentation source.
 
 ### Leaderboards
 #### Base API URL
@@ -97,6 +89,3 @@ http://localhost:5103/api/leaderboards
 **PATCH:** /:userId <br>
 **Send:** points (Number) <br>
 **Receive:** Response Code - 204, No Content || Respose Code - 404 ||Respose Code - 404, unknown endpoint
-
-## Acknowledgements
-TODO: Show folks some love.
