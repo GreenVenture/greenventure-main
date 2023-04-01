@@ -21,7 +21,7 @@ Sustainability has become an important aspect of corporate responsibility. Compa
 
 ## Features
 
-* Do missions, complete them and earn points
+* Participate and complete sustainability themed missions and earn points
 * Redeem vouchers with points
 * Participate in the community and view the leaderboards
 
