@@ -78,8 +78,8 @@ def getAllPost():
         )
     else:
         return (
-            jsonify({"code": 500, "message": "There is no post currently available"}),
-            500,
+            jsonify({"code": 404, "message": "There is no post currently available"}),
+            404,
         )
 
 
@@ -106,8 +106,8 @@ def getAllPostByUser(userID):
         )
     else:
         return (
-            jsonify({"code": 500, "message": "There is no post currently available"}),
-            500,
+            jsonify({"code": 404, "message": "There is no post currently available"}),
+            404,
         )
 
 
@@ -133,12 +133,12 @@ def addNewPost(userID):
         return (
             jsonify(
                 {
-                    "code": 500,
+                    "code": 400,
                     "message": "An error occurred while creating the Post record. "
                     + str(e),
                 }
             ),
-            500,
+            400,
         )
     return jsonify({"code": 201, "data": newPost.json()}), 201
 
@@ -153,7 +153,7 @@ def deleteAPost(postID):
     """
     record_to_delete = Userpost.query.filter_by(postID=postID).first()
 
-    if record_to_delete:
+    if record_to_delete is not None:
         try:
             db.session.delete(record_to_delete)
             db.session.commit()
@@ -161,20 +161,30 @@ def deleteAPost(postID):
             return (
                 jsonify(
                     {
-                        "code": 500,
+                        "code": 400,
                         "message": "An error occurred while creating the Post record. "
                         + str(e),
                     }
                 ),
-                500,
+                400,
             )
         return (
             jsonify({"code": 201, "message": "The post has been deleted successfully"}),
             201,
         )
+    else:
+        return (
+            jsonify(
+                {
+                    "code": 404,
+                    "message": "There is no post detail by the id found!",
+                }
+            ),
+            404,
+        )
 
 
-@app.route("/community/post/<postID>", methods=["GET"])
+@app.route("/post/<postID>", methods=["GET"])
 def getPostDetail(postID):
     """
     It returns a jsonified response of all the post details for a given postID
@@ -199,12 +209,12 @@ def getPostDetail(postID):
         )
     else:
         return (
-            jsonify({"code": 500, "message": "There is no post details for this post"}),
-            500,
+            jsonify({"code": 404, "message": "There is no post details for this post"}),
+            404,
         )
 
 
-@app.route("/community/post/<postID>", methods=["POST"])
+@app.route("/post/<postID>", methods=["POST"])
 def addPostDetail(postID):
     """
     It takes a postID, and then creates a new Postactivity record in the database
@@ -232,17 +242,17 @@ def addPostDetail(postID):
         return (
             jsonify(
                 {
-                    "code": 500,
+                    "code": 400,
                     "message": "An error occurred while creating the Post Detail record. "
                     + str(e),
                 }
             ),
-            500,
+            400,
         )
     return jsonify({"code": 201, "data": newPostDetail.json()}), 201
 
 
-@app.route("/community/post/<postID>", methods=["DELETE"])
+@app.route("/post/<postID>", methods=["DELETE"])
 def deletePostDetail(postID):
     """
     Delete a post detail record from the database
@@ -256,7 +266,7 @@ def deletePostDetail(postID):
     record_to_delete = Postactivity.query.filter_by(
         postID=postID, activity_datetime=activity_datetime, action_user=action_user
     ).first()
-    if record_to_delete:
+    if record_to_delete is not None:
         try:
             db.session.delete(record_to_delete)
             db.session.commit()
@@ -264,12 +274,12 @@ def deletePostDetail(postID):
             return (
                 jsonify(
                     {
-                        "code": 500,
+                        "code": 400,
                         "message": "An error occurred while creating the PostDetail record. "
                         + str(e),
                     }
                 ),
-                500,
+                400,
             )
 
         return (
@@ -280,6 +290,16 @@ def deletePostDetail(postID):
                 }
             ),
             201,
+        )
+    else:
+        return (
+            jsonify(
+                {
+                    "code": 404,
+                    "message": "There is no post detail by the id found!",
+                }
+            ),
+            404,
         )
 
 
