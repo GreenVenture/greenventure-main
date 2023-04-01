@@ -8,9 +8,17 @@ CREATE TABLE IF NOT EXISTS `ACCOUNT` (
     `userID` VARCHAR(50) NOT NULL,
     `name` VARCHAR(20),
     `email` VARCHAR(50),
-    `accessToken` TEXT,
     CONSTRAINT account_pk PRIMARY KEY (`userID`)
 );
+
+INSERT INTO
+    `ACCOUNT`
+VALUES
+    (
+        '123456789',
+        'Poster',
+        'aaronkwah@gmail.com'
+    );
 
 DROP DATABASE IF EXISTS communityDB;
 
@@ -61,6 +69,24 @@ VALUES
         '00003',
         '2023-03-01 02:02:00',
         'I have completed sustainable mission3'
+    );
+
+INSERT INTO
+    `USERPOST` (`userID`, `post_datetime`, `post`)
+VALUES
+    (
+        '00003',
+        '2023-03-01 02:02:00',
+        'I have completed sustainable mission3'
+    );
+
+INSERT INTO
+    `USERPOST` (`userID`, `post_datetime`, `post`)
+VALUES
+    (
+        '123456789',
+        '2023-04-01 02:02:00',
+        'I have completed sustainable mission 5 (This is the demo post for community email)'
     );
 
 INSERT INTO
