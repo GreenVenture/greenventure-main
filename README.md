@@ -74,5 +74,29 @@ TODO: Additional instructions for testing the application.
 ## API
 TODO: API Reference with examples, or a link to a wiki or other documentation source.
 
+### Leaderboards
+#### Base API URL
+http://localhost:5103/api/leaderboards
+
+#### Get all users
+**GET:** /<br>
+**Send:** NIL <br>
+**Receive:** All Users, Response Code - 200 OK || Response Code - 404 || Response Code - 404, unknown endpoint
+
+#### Get specific user
+**GET:** /:userId <br>
+**Send:** NIL <br>
+**Receive:** Specific User, Response Code - 200 OK || Response Code - 404 || Response Code - 404, unknown endpoint
+
+#### Add a user
+**POST:** / <br>
+**Send:** userId (String), name (String), points (Number)<br>
+**Receive:**  User Object, Response Code - 201 || Exception || Response Code - 404, unknown endpoint
+
+#### Update a user's points
+**PATCH:** /:userId <br>
+**Send:** points (Number) <br>
+**Receive:** Response Code - 204, No Content || Respose Code - 404 ||Respose Code - 404, unknown endpoint
+
 ## Acknowledgements
 TODO: Show folks some love.
