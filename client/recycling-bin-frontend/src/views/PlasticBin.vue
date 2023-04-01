@@ -17,7 +17,6 @@
     </div>
 
     <img style="padding:20px; width:200px; height:auto" src="../assets/plastic_recycling_bin.png" alt="">
-d
 
   </div>
 
