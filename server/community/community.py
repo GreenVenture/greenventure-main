@@ -111,6 +111,35 @@ def getAllPostByUser(userID):
         )
 
 
+@app.route("/user/<postID>", methods=["GET"])
+def getUserEmailByPostId(postID):
+    """
+    It takes a postID as an argument and returns the userID of the user who posted it
+
+    :param postID: The ID of the post you want to get the user's email for
+    :return: The userID of the user who posted the postID
+    """
+
+    post = db.session.query(Userpost).filter_by(postID=postID).first()
+    post = post.json()
+
+    if post is not None:
+        return (
+            jsonify(
+                {
+                    "code": 200,
+                    "data": {"posterID": post["userID"]},
+                }
+            ),
+            200,
+        )
+    else:
+        return (
+            jsonify({"code": 404, "message": "There is no post currently available"}),
+            404,
+        )
+
+
 @app.route("/<userID>", methods=["POST"])
 def addNewPost(userID):
     """

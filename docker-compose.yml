@@ -247,6 +247,29 @@ services:
             - my-network
 
     #####################################################################
+    # Create Account: The Create Account complex microservice
+    #####################################################################
+
+    commentpost:
+        build:
+            context: ./server/commentPost
+            dockerfile: commentpost.Dockerfile
+        image: rayquek123/commentpost:1.0
+        restart: always
+        depends_on:
+            - community
+            - account
+        environment:
+            PYTHONUNBUFFERED: 1
+            CREATE_WALLET_URL: "http://wallet:5102/"
+            COMMUNITY_URL: "http://community:5104/"
+            ACCOUNT_URL: "http://account:5100/"
+        ports:
+            - "5206:5206"
+        networks:
+            - my-network
+
+    #####################################################################
     # Recycling Bin: The frontend for smart bin simulation
     #####################################################################
 
