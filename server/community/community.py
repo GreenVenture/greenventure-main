@@ -158,7 +158,7 @@ def addNewPost(userID):
 
     aRequest = request.get_json()
     post = str(aRequest["post"])
-    username = str(aRequest["username"])
+    username = str(aRequest["name"])
     now = datetime.now()
     formatted_date = now.strftime("%Y-%m-%d %H:%M:%S")
     newPost = Userpost(userID=userID, username=username , post_datetime=formatted_date, post=post)
@@ -260,7 +260,7 @@ def addPostDetail(postID):
     """
     aRequest = request.get_json()
     action_user = str(aRequest["action_user"])
-    action_username = str(aRequest["action_username"])
+    action_username = str(aRequest["name"])
     activity = str(aRequest["activity"])
     comment = str(aRequest["comment"])
     now = datetime.now()

@@ -1,6 +1,5 @@
 import json
-from flask import Flask, redirect, request, jsonify, url_for
-from flask_sqlalchemy import SQLAlchemy
+from flask import Flask, request, jsonify
 from flask_cors import CORS
 import pika
 from invokes import invoke_http
@@ -31,6 +30,7 @@ def postComment():
 
     print("----------- [3] SEND POST TO COMMUNTIY SERVICE ------------")
     response = invoke_http(COMMUNITY_URL + f"post/{post_id}", method="POST", json=data)
+    data = response["data"]
     print("----------- [4] SUCCESS - POST TO COMMUNTIY SERVICE ------------")
 
     if response["code"] in range(200, 300):
@@ -76,6 +76,7 @@ def postComment():
                     {
                         "code": 200,
                         "message": "Notification Sent!",
+                        "data" : data
                     }
                 ),
                 200,
