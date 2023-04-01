@@ -36,45 +36,77 @@ CREATE TABLE IF NOT EXISTS `POSTACTIVITY`(
     CONSTRAINT postactivity_fk1 FOREIGN KEY (`postID`) REFERENCES `USERPOST` (`postID`)
 );
 
--- INSERT INTO `POSTACTIVITY`
--- VALUES
---     (
---         '00001',
---         '2023-01-03 00:23:24',
---         '00002',
---         'like',
---         NULL
---     );
--- INSERT INTO
---     `POSTACTIVITY`
--- VALUES
---     (
---         '00001',
---         '2023-01-02 00:23:30',
---         '00002',
---         'comment',
---         'goodjob terry!'
---     );
--- INSERT INTO
---     `POSTACTIVITY`
--- VALUES
---     (
---         '00002',
---         '2023-02-03 13:20:12',
---         '00003',
---         'like',
---         NULL
---     );
--- INSERT INTO
---     `POSTACTIVITY`
--- VALUES
---     (
---         '00003',
---         '2023-03-01 04:20:24',
---         '00001',
---         'like',
---         NULL
---     );
+INSERT INTO
+    `USERPOST` (`userID`, `post_datetime`, `post`)
+VALUES
+    (
+        '00001',
+        '2023-01-01 13:23:24',
+        'I have completed sustainable mission1'
+    );
+
+INSERT INTO
+    `USERPOST` (`userID`, `post_datetime`, `post`)
+VALUES
+    (
+        '00001',
+        '2023-02-03 00:13:24',
+        'I have completed sustainable mission2'
+    );
+
+INSERT INTO
+    `USERPOST` (`userID`, `post_datetime`, `post`)
+VALUES
+    (
+        '00003',
+        '2023-03-01 02:02:00',
+        'I have completed sustainable mission3'
+    );
+
+INSERT INTO
+    `POSTACTIVITY`
+VALUES
+    (
+        '00001',
+        '2023-01-03 00:23:24',
+        '00002',
+        'like',
+        NULL
+    );
+
+INSERT INTO
+    `POSTACTIVITY`
+VALUES
+    (
+        '00001',
+        '2023-01-02 00:23:30',
+        '00002',
+        'comment',
+        'goodjob terry!'
+    );
+
+INSERT INTO
+    `POSTACTIVITY`
+VALUES
+    (
+        '00002',
+        '2023-02-03 13:20:12',
+        '00003',
+        'like',
+        NULL
+    );
+
+INSERT INTO
+    `POSTACTIVITY`
+VALUES
+    (
+        '00003',
+        '2023-03-01 04:20:24',
+        '00001',
+        'like',
+        NULL
+    );
+
 DROP DATABASE IF EXISTS voucherDB;
 
 CREATE DATABASE IF NOT EXISTS voucherDB;
