@@ -273,30 +273,30 @@ services:
     # GreenVenture Front End: The frontend for main app
     #####################################################################
 
-    # greenventure_frontend:
-    #     build:
-    #         context: ./client/greenventure-frontend
-    #         dockerfile: greenventure_frontend.Dockerfile
-    #     # image: rayquek123/recyclingbinfrontend:1.0
-    #     ports:
-    #         - "8080:8080"
-    #     depends_on:
-    #         - account
-    #         - wallet
-    #         - voucher
-    #         - mission
-    #         - leaderboards
-    #         - community
-    #         - notifications
-    #         - displayPointsVouchers
-    #         - redeem_voucher
-    #         - use_voucher
-    #         - authaccount
-    #         - createaccount
-    #         - commentpost
+    greenventure_frontend:
+        build:
+            context: ./client/greenventure-frontend
+            dockerfile: greenventure_frontend.Dockerfile
+        # image: rayquek123/recyclingbinfrontend:1.0
+        ports:
+            - "8080:8080"
+        depends_on:
+            - account
+            - wallet
+            - voucher
+            - mission
+            - leaderboards
+            - community
+            - notifications
+            - displayPointsVouchers
+            - redeem_voucher
+            - use_voucher
+            - authaccount
+            - createaccount
+            - commentpost
 
-    #     networks:
-    #         - my-network
+        networks:
+            - my-network
 
     #####################################################################
     # Recycling Bin: The frontend for smart bin simulation
