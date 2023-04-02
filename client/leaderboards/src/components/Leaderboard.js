@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import LeaderboardService from "../services/leaderboards";
-import { FaCrown } from "react-icons/fa";
+import { FaCrown, FaHome } from "react-icons/fa";
 
 const Leaderboard = () => {
 	const [users, setUsers] = useState([]);
@@ -54,6 +54,11 @@ const Leaderboard = () => {
 
 	return (
 		<div>
+			<div className="text-center mt-5">
+				<a href="http://localhost:5173">
+					<FaHome size={20}/>
+				</a>
+			</div>
 			<div className="text-center my-5">
 				<h3>Leaderboard</h3>
 			</div>
