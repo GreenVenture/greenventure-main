@@ -10,7 +10,6 @@ Inspired by the Healthy 365 app launched by the Health Promotion Board (HPB), Gr
 - [Features](#features)
 - [Requirements](#requirements)
 - [Quick Start](#quick-start)
-- [Screenshots](#screenshots)
 
 ## Tech Stack
 * Authentication: OAuth2 with Facebook SSO Login
@@ -27,9 +26,25 @@ Inspired by the Healthy 365 app launched by the Health Promotion Board (HPB), Gr
 
 
 ## Requirements
-The application can be run locally or in a docker container, the requirements for the setup is listed below.
+The frontend of the application can be run locally or by using the deployed Netlify link. The backend can be run in a docker container, the requirements for the setup is listed below.
 
-### Docker
+### Local - Frontend
+Clone greenventure-frontend:
+```bash
+$ git clone git@github.com:GreenVenture/greenventure-frontend.git
+```
+Open your terminal in the local project root folder, and execute:
+```bash
+$ npm install
+```
+Run the application
+```bash
+$ npm run dev
+```
+Application will run by default on port `5173` <br>
+Alternative Deployed FrontEnd Netlify Link: https://main--greenventure.netlify.app/ <br>
+
+### Docker - Backend
 * [Docker](https://www.docker.com/get-docker)
 
 ### Quick Start
@@ -45,14 +60,6 @@ When ready, run it:
 ```bash
 $ docker-compose up
 ```
-
-Application will run by default on port `8080` <br>
 Secondary UIs: <br>
 * `recycling-bin-frontend` - `8081`
 * `leaderboards` - `3000`
-
-## Screenshots
-#### INSERT MORE SCREENSHOTS
-
-#### Leaderboards Page
-![Screenshot 2023-04-01 at 3 57 37 PM](https://user-images.githubusercontent.com/86020207/229273581-a90da9d4-1453-4e09-b278-be2adc280f2f.png)
