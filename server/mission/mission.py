@@ -330,7 +330,7 @@ def complete_mission():
 
                 return {"code": 200, "message": "Task executed successfully"}
 
-            return jsonify({"code": 200, "data": usermission.json()}), 200
+            return jsonify({"code": 200, "data": usermission.json(),"message": "Successfully completed an additional task."}), 200
 
         except Exception as e:
 
