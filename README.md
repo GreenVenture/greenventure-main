@@ -13,10 +13,11 @@ Inspired by the Healthy 365 app launched by the Health Promotion Board (HPB), Gr
 - [Screenshots](#screenshots)
 
 ## Tech Stack
+* Authentication: OAuth2 with Facebook SSO Login
 * Front-End: Vue.js & React.js
 * Back-End: Flask & Node.js + Express.js
 * Databases: MySQL & MongoDB
-* Tools: Docker & LavinMQ
+* Tools: Docker, LavinMQ & nodemailer
 
 ## Features
 
