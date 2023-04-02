@@ -5,11 +5,6 @@ from os import environ
 
 app = Flask(__name__)
 
-# app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:root@localhost:3306/walletDB'
-# export dbURL=mysql+mysqlconnector://root:root@localhost:3306/walletDB
-# docker build -t mauriceho/wallet:1.0 ./
-# docker run -p 5102:5102 -e dbURL=mysql+mysqlconnector://is213@host.docker.internal:3306/walletDB mauriceho/wallet:1.0
-
 app.config["SQLALCHEMY_DATABASE_URI"] = environ.get("dbURL")
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
@@ -57,37 +52,7 @@ class Walletvoucher(db.Model):
         }
 
 
-"""Add a voucher"""
-# @app.route("/walletVoucher", methods=["POST"])
-# def add_wallet_voucher():
-#     data = request.get_json()
-#     print(data)
-#     walletID = data['walletID']
-#     voucherID = data['voucherID']
-#     voucher_code = data['voucher_code']
-#     used = data['used']
-#     WALLETVOUCHER = Walletvoucher(walletID, voucherID, voucher_code, used)
-#     try:
-#         db.session.add(WALLETVOUCHER)
-#         db.session.commit()
-#     except Exception as e:
-#         return jsonify(
-#             {
-#                 "code": 500,
-#                 "data": {
-#                     "voucherID": voucherID
-#                 },
-#                 "message": "An error occurred adding the voucher into wallet." + str(e)
-#             }
-#         ), 500
-#     return jsonify(
-#         {
-#             "code": 201,
-#             "data": WALLETVOUCHER.json()
-#         }
-#     ), 201
-
-
+'''POST User’s Wallet'''
 @app.route("/wallet/adduser", methods=["POST"])
 def add_wallet():
     data = request.get_json()
@@ -112,8 +77,6 @@ def add_wallet():
 
 
 """Get all voucher in wallet"""
-
-
 @app.route("/walletVoucher/<int:walletID>")
 def get_voucher_ids(walletID):
     vouchers = Walletvoucher.query.filter_by(walletID=walletID).all()
@@ -129,8 +92,6 @@ def get_voucher_ids(walletID):
 
 
 """Show user wallet"""
-
-
 @app.route("/wallet/<int:user_id>")
 def get_user_wallet(user_id):
     wallet = Wallet.query.filter_by(userID=user_id).first()
@@ -149,9 +110,7 @@ def get_user_wallet(user_id):
     return jsonify({"message": "Wallet not found for the user.", "code": 404}), 404
 
 
-"""use"""
-
-
+"""use voucher"""
 @app.route("/wallet/use/<string:walletID>/<string:voucherCode>", methods=["PATCH"])
 def mark_voucher_as_used(walletID, voucherCode):
     walletID = int(walletID)
@@ -174,8 +133,6 @@ def mark_voucher_as_used(walletID, voucherCode):
 
 
 """add points in to wallet"""
-
-
 @app.route("/wallet/addpoints", methods=["PATCH"])
 def add_points_wallet():
     data = request.get_json()
@@ -197,6 +154,7 @@ def add_points_wallet():
     return jsonify({"code": 404, "message": "wallet not found."}), 404
 
 
+'''Post verify and exchange points'''
 @app.route("/wallet", methods=["POST"])
 def verify_and_exchange_points():
     # Find user's wallet by user ID
@@ -255,53 +213,6 @@ def verify_and_exchange_points():
         ),
         201,
     )
-
-
-# @app.route('/wallet/<int:user_id>&<int:voucher_id>&<int:points_earned>', methods=['PATCH'])
-# def verify_and_exchange_points(user_id, voucher_id, points_earned):
-#     # Find user's wallet by user ID
-#     wallet = Wallet.query.filter_by(userID=user_id).first()
-#     if not wallet:
-#         return jsonify({
-#             'code': 404,
-#             'message': f"Wallet not found for user ID: {user_id}"
-#         }), 404
-
-#     # Check if user has enough points to exchange for voucher
-#     if wallet.points_remaining < points_earned:
-#         return jsonify({
-#             'code': 400,
-#             'message': f"Not enough points remaining in wallet ID: {wallet.walletID} for exchange."
-#         }), 400
-
-#     # Find wallet voucher by wallet ID and voucher ID
-#     WALLETVOUCHER = Walletvoucher.query.filter_by(walletID=wallet.walletID, voucherID=voucher_id).first()
-#     if not WALLETVOUCHER:
-#         return jsonify({
-#             'code': 404,
-#             'message': f"Wallet voucher not found for wallet ID: {wallet.walletID} and voucher ID: {voucher_id}"
-#         }), 404
-
-#     # Verify voucher code
-#     if WALLETVOUCHER.voucher_code != 'VALID_CODE':
-#         return jsonify({
-#             'code': 400,
-#             'message': f"Invalid voucher code for voucher ID: {voucher_id}"
-#         }), 400
-
-#     # Mark voucher as used
-#     WALLETVOUCHER.used = True
-
-#     # Update user's wallet points
-#     wallet.points_remaining -= points_earned
-
-#     # Commit changes to database
-#     db.session.commit()
-
-#     return jsonify({
-#         'code': 200,
-#         'message': f"{points_earned} points have been exchanged for voucher ID: {voucher_id}"
-#     }), 200
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5102, debug=True)
