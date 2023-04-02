@@ -27,18 +27,14 @@ Inspired by the Healthy 365 app launched by the Health Promotion Board (HPB), Gr
 
 
 ## Requirements
-The application can be run locally or in a docker container, the requirements for each setup are listed below.
-
-
-### Local
-
+The application can be run locally or in a docker container, the requirements for the setup is listed below.
 
 ### Docker
 * [Docker](https://www.docker.com/get-docker)
 
-## Quick Start
+### Quick Start
 
-### Run Docker
+#### Run Docker
 
 First build the image:
 ```bash
