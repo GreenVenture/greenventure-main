@@ -52,7 +52,7 @@ const Leaderboard = () => {
   return (
     <div>
       <div className="text-center mt-5">
-        <a href="http://localhost:5173">
+        <a href="https://main--greenventure.netlify.app/">
           <FaHome size={30} style={{ color: "white" }} />
         </a>
       </div>
