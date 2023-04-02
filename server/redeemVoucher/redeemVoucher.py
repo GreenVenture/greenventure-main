@@ -69,7 +69,7 @@ def processRedeemVoucher(redemption):
         # Return error
         return {
             "code": 500,
-            "data": {"order_result": redemption_result},
+            "data": {"redemption_result_wallet": redemption_result},
             "message": "Voucher redemption failure"
         }
 
@@ -88,7 +88,7 @@ def processRedeemVoucher(redemption):
             # Return error
             return {
                 "code": 500,
-                "data": {"order_result": redemption_voucher_result},
+                "data": {"redemption_result_voucher": redemption_voucher_result},
                 "message": "Voucher redemption failure."
             }
 
