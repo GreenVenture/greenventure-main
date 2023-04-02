@@ -11,7 +11,6 @@ Inspired by the Healthy 365 app launched by the Health Promotion Board (HPB), Gr
 - [Requirements](#requirements)
 - [Quick Start](#quick-start)
 - [Screenshots](#screenshots)
-- [API](#requirements)
 
 ## Tech Stack
 * Front-End: Vue.js & React.js
