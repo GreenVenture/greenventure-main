@@ -9,7 +9,6 @@ Inspired by the Healthy 365 app launched by the Health Promotion Board (HPB), Gr
 - [Tech Stack](#tech-stack)
 - [Features](#features)
 - [Requirements](#requirements)
-- [Quick Start](#quick-start)
 
 ## Tech Stack
 * Authentication: OAuth2 with Facebook SSO Login
@@ -46,8 +45,6 @@ Alternative Deployed FrontEnd Netlify Link: https://main--greenventure.netlify.a
 
 ### Docker - Backend
 * [Docker](https://www.docker.com/get-docker)
-
-### Quick Start
 
 #### Run Docker
 
