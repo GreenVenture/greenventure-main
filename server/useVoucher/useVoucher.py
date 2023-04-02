@@ -53,7 +53,7 @@ def use_voucher():
                 jsonify(
                     {
                         "code": 500,
-                        "message": "redeemVoucher.py internal error: " + ex_str,
+                        "message": "useVoucher.py internal error: " + ex_str,
                     }
                 ),
                 500,
