@@ -43,8 +43,8 @@ $ npm run dev
 Application will run by default on port `5173` <br>
 Alternative Deployed FrontEnd Netlify Link: https://main--greenventure.netlify.app/ <br>
 
-### Docker - Backend
-* [Docker](https://www.docker.com/get-docker)
+### Backend
+Run load.sql script top initialize the database
 
 #### Run Docker
 
