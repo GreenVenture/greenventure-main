@@ -3,6 +3,7 @@ from flask_sqlalchemy import SQLAlchemy
 import os
 from datetime import datetime
 from flask_cors import CORS
+
 app = Flask(__name__)
 # Setting up the database connection.
 # app.config[
@@ -13,6 +14,7 @@ app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
 db = SQLAlchemy(app)
 CORS(app)
+
 
 class Userpost(db.Model):
     __tablename__ = "USERPOST"
@@ -47,7 +49,9 @@ class Postactivity(db.Model):
     activity = db.Column(db.String(20), nullable=True)
     comment = db.Column(db.String(50), nullable=True)
 
-    def __init__(self, postID, activity_datetime, action_user, action_username, activity, comment):
+    def __init__(
+        self, postID, activity_datetime, action_user, action_username, activity, comment
+    ):
         self.postID = postID
         self.activity_datetime = activity_datetime
         self.action_user = action_user
@@ -161,7 +165,9 @@ def addNewPost(userID):
     username = str(aRequest["name"])
     now = datetime.now()
     formatted_date = now.strftime("%Y-%m-%d %H:%M:%S")
-    newPost = Userpost(userID=userID, username=username , post_datetime=formatted_date, post=post)
+    newPost = Userpost(
+        userID=userID, username=username, post_datetime=formatted_date, post=post
+    )
     try:
         db.session.add(newPost)
         db.session.commit()
