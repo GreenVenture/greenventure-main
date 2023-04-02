@@ -44,7 +44,7 @@ Application will run by default on port `5173` <br>
 Alternative Deployed FrontEnd Netlify Link: https://main--greenventure.netlify.app/ <br>
 
 ### Backend
-Run load.sql script top initialize the database
+Run load.sql script to initialize the database
 
 #### Run Docker
 
