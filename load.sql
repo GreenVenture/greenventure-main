@@ -55,104 +55,6 @@ CREATE TABLE IF NOT EXISTS `POSTACTIVITY`(
     CONSTRAINT postactivity_fk1 FOREIGN KEY (`postID`) REFERENCES `USERPOST` (`postID`)
 );
 
-INSERT INTO
-    `USERPOST` (`userID`, `username`, `post_datetime`, `post`)
-VALUES
-    (
-        '00001',
-        'Tom',
-        '2023-01-01 13:23:24',
-        'I have completed sustainable mission1'
-    );
-
-INSERT INTO
-    `USERPOST` (`userID`, `username`, `post_datetime`, `post`)
-VALUES
-    (
-        '00001',
-        'Tom',
-        '2023-02-03 00:13:24',
-        'I have completed sustainable mission2'
-    );
-
-INSERT INTO
-    `USERPOST` (`userID`, `username`, `post_datetime`, `post`)
-VALUES
-    (
-        '00003',
-        'Aaron',
-        '2023-03-01 02:02:00',
-        'I have completed sustainable mission3'
-    );
-
-INSERT INTO
-    `USERPOST` (`userID`, `username`, `post_datetime`, `post`)
-VALUES
-    (
-        '00003',
-        'Aaron',
-        '2023-03-01 02:02:00',
-        'I have completed sustainable mission3'
-    );
-
-INSERT INTO
-    `USERPOST` (`userID`, `username`, `post_datetime`, `post`)
-VALUES
-    (
-        '123456789',
-        'Maurice',
-        '2023-04-01 02:02:00',
-        'I have completed sustainable mission 5 (This is the demo post for community email)'
-    );
-
-INSERT INTO
-    `POSTACTIVITY`
-VALUES
-    (
-        '00001',
-        '2023-01-03 00:23:24',
-        '00002',
-        'Baron',
-        'like',
-        NULL
-    );
-
-INSERT INTO
-    `POSTACTIVITY`
-VALUES
-    (
-        '00001',
-        '2023-01-02 00:23:30',
-        '00002',
-        'Baron',
-        'comment',
-        'goodjob terry!'
-    );
-
-INSERT INTO
-    `POSTACTIVITY`
-VALUES
-    (
-        '00002',
-        '2023-02-03 13:20:12',
-        '00003',
-        'Aaron',
-        'like',
-        NULL
-    );
-
-INSERT INTO
-    `POSTACTIVITY`
-VALUES
-    (
-        '00003',
-        '2023-03-01 04:20:24',
-        '00001',
-        'Tom',
-        'like',
-        NULL
-    );
-
 DROP DATABASE IF EXISTS voucherDB;
 
 CREATE DATABASE IF NOT EXISTS voucherDB;
@@ -284,7 +186,7 @@ CREATE TABLE IF NOT EXISTS `WALLETVOUCHER`(
 INSERT INTO
     `WALLET` (`userID`, `points_remaining`)
 VALUES
-    ('162804203307686', 1000);
+    ('162804203307685', 1000);
 
 INSERT INTO
     `WALLET` (`userID`, `points_remaining`)
