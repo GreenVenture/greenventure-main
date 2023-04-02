@@ -20,7 +20,7 @@ Inspired by the Healthy 365 app launched by the Health Promotion Board (HPB), Gr
 
 ## Features
 
-* Participate and complete sustainability themed missions and earn points
+* Participate and complete recycling themed missions and earn points
 * Redeem vouchers with points
 * Participate in the community and view the leaderboards
 
