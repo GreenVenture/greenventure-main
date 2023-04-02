@@ -20,6 +20,15 @@ VALUES
         'aaronkwah@gmail.com'
     );
 
+INSERT INTO
+    `ACCOUNT`
+VALUES
+    (
+        '9876543321',
+        'Tom',
+        'ray.quek@gmail.com'
+    );
+
 DROP DATABASE IF EXISTS communityDB;
 
 CREATE DATABASE IF NOT EXISTS communityDB;
@@ -275,17 +284,17 @@ CREATE TABLE IF NOT EXISTS `WALLETVOUCHER`(
 INSERT INTO
     `WALLET` (`userID`, `points_remaining`)
 VALUES
-    ('162804203307686', 100);
+    ('162804203307686', 1000);
 
 INSERT INTO
     `WALLET` (`userID`, `points_remaining`)
 VALUES
-    ('162804203307687', 50);
+    ('162804203307687', 2000);
 
 INSERT INTO
     `WALLET` (`userID`, `points_remaining`)
 VALUES
-    ('162804203307689', 300);
+    ('162804203307689', 2040);
 
 INSERT INTO
     `WALLETVOUCHER`
@@ -338,7 +347,12 @@ INSERT INTO
         `description`
     )
 VALUES
-    (60, 'Plastic', 3, 'Earn 60 points when you recycle 3 plastic items at our recycling bin!');
+    (
+        60,
+        'Plastic',
+        3,
+        'Earn 60 points when you recycle 3 plastic items at our recycling bin!'
+    );
 
 INSERT INTO
     `MISSION` (
@@ -348,7 +362,12 @@ INSERT INTO
         `description`
     )
 VALUES
-    (100, 'Paper', 5, 'Earn 100 points when you recycle 5 paper items at our recycling bin!');
+    (
+        100,
+        'Paper',
+        5,
+        'Earn 100 points when you recycle 5 paper items at our recycling bin!'
+    );
 
 INSERT INTO
     `MISSION` (
@@ -358,7 +377,12 @@ INSERT INTO
         `description`
     )
 VALUES
-    (20, 'Plastic', 1, 'Earn 20 points when you recycle 1 plastic item at our recycling bin!');
+    (
+        20,
+        'Plastic',
+        1,
+        'Earn 20 points when you recycle 1 plastic item at our recycling bin!'
+    );
 
 INSERT INTO
     `MISSION` (
@@ -368,7 +392,12 @@ INSERT INTO
         `description`
     )
 VALUES
-    (200, 'Electronics', 2, 'Earn 200 points when you recycle 2 electronic waste at our recycling bin!');
+    (
+        200,
+        'Electronics',
+        2,
+        'Earn 200 points when you recycle 2 electronic waste at our recycling bin!'
+    );
 
 /******************************************************************************/
 -- recyclingbinDB script
